@@ -1,3 +1,4 @@
+window.intentTrackingEncrypt = true;
 // ================================
 // Config Flags
 // ================================
