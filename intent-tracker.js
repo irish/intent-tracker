@@ -2,7 +2,7 @@
 // Config Flags
 // ================================
 const DEBUG_FUNNEL = true; // Set false in prod
-const USE_ENCRYPTION = window.location.hostname !== 'localhost'; // Encrypt in prod
+const USE_ENCRYPTION = window.location.hostname !== 'localhost'; // Scramble in prod
 const SECRET_KEY = 'super-secret-passphrase';
 const STORAGE_KEY = USE_ENCRYPTION ? '__sh_x83kz1_' : 'search_history';
 
