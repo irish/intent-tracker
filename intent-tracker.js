@@ -81,7 +81,7 @@ function trackFormInputs(firstName, lastName, state) {
 		try {
 			history = JSON.parse(stored);
 		} catch (e) {
-			console.warn("⚠️ Failed to parse stored history. Resetting.");
+			console.warn("Failed to parse stored history. Resetting.");
 			history = [];
 		}
 	}
@@ -96,14 +96,14 @@ function trackFormInputs(firstName, lastName, state) {
 		history.unshift(entry);
 		if (history.length > 8) history.pop();
 		localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
-		if (DEBUG_FUNNEL) console.log("✅ Intent-tracking entry saved:", entry);
+		if (DEBUG_FUNNEL) console.log("Intent-tracking entry saved:", entry);
 	} else {
-		if (DEBUG_FUNNEL) console.log("⚠️ Duplicate entry skipped");
+		if (DEBUG_FUNNEL) console.log("Duplicate entry skipped");
 	}
 }
 
 // Bootstrap helper
 function initializeFunnelTracking() {
 	// No longer stores funnel ID globally
-	if (DEBUG_FUNNEL) console.log("🚀 Funnel tracking initialized");
+	if (DEBUG_FUNNEL) console.log("Funnel tracking initialized");
 }
