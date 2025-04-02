@@ -28,23 +28,22 @@ function getSearchQueryFromReferrer() {
 	return null;
 }
 
-function ensureFunnelId() {
-	let funnelId = sessionStorage.getItem("currentFunnelId");
-	if (!funnelId) {
-		funnelId = 'funnel_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-		sessionStorage.setItem("currentFunnelId", funnelId);
-		if (DEBUG_FUNNEL) console.log("🆕 Funnel ID created:", funnelId);
-	} else {
-		if (DEBUG_FUNNEL) console.log("📌 Existing Funnel ID:", funnelId);
-	}
-	return funnelId;
+function generateFunnelId() {
+	const timestamp = Date.now();
+	const unique = Math.random().toString(36).substr(2, 9);
+	return `funnel_${timestamp}_${unique}`;
+}
+
+function getUrlParam(param) {
+	const params = new URLSearchParams(window.location.search);
+	return params.get(param) || null;
 }
 
 // ================================
 // Main Tracking Function
 // ================================
 function trackFormInputs(firstName, lastName, state) {
-	const funnelId = ensureFunnelId();
+	const funnelId = generateFunnelId();
 	const params = new URLSearchParams(window.location.search);
 
 	const entry = {
@@ -63,13 +62,13 @@ function trackFormInputs(firstName, lastName, state) {
 		// Referral & Campaign
 		referrer: document.referrer ? new URL(document.referrer).hostname : "direct",
 		search_term: getSearchQueryFromReferrer(),
-		utm_source: params.get("utm_source") || null,
-		utm_medium: params.get("utm_medium") || null,
-		utm_campaign: params.get("utm_campaign") || null,
-		utm_term: params.get("utm_term") || null,
-		utm_content: params.get("utm_content") || null,
-		gclid: params.get("gclid") || null,
-		fbclid: params.get("fbclid") || null,
+		utm_source: getUrlParam("utm_source"),
+		utm_medium: getUrlParam("utm_medium"),
+		utm_campaign: getUrlParam("utm_campaign"),
+		utm_term: getUrlParam("utm_term"),
+		utm_content: getUrlParam("utm_content"),
+		gclid: getUrlParam("gclid"),
+		fbclid: getUrlParam("fbclid"),
 
 		// Optional metrics set externally
 		idle_time: typeof window.idleTimeSeconds !== "undefined" ? Math.round(window.idleTimeSeconds) : null,
@@ -105,5 +104,6 @@ function trackFormInputs(firstName, lastName, state) {
 
 // Bootstrap helper
 function initializeFunnelTracking() {
-	ensureFunnelId();
+	// No longer stores funnel ID globally
+	if (DEBUG_FUNNEL) console.log("🚀 Funnel tracking initialized");
 }
